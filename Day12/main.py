@@ -3,6 +3,7 @@ import os
 import art
 
 def deal_card():
+    """Returns random card from the deck"""
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10]
     card = random.choice(cards)
     return card
@@ -76,7 +77,7 @@ def my_blackjack_game():
                     another_card = False
 
         # Loop through dealer hands
-        # Dealer continues to draw cards when score < 16
+        # Dealer continues to draw cards when score < 17
         while dealer_score != 0 and dealer_score < 17:
             dealer_cards.append(deal_card())
             dealer_score = calculate_score(dealer_cards)
