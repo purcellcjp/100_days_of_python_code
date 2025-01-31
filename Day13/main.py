@@ -5,7 +5,14 @@ from art import logo
 HARD_ATTEMPTS = 5
 EASY_ATTEMPTS = 10
 
-
+def return_difficulty_turns():
+    response = input('Choose a difficulty. Type ''easy'' or ''hard'':').lower()
+    if response == 'hard':
+        return HARD_ATTEMPTS
+    else:
+        return EASY_ATTEMPTS    
+    
+    
 def compare_guesses(guess, answer):
     
     if guess == answer:
@@ -26,11 +33,14 @@ def my_guessing_number_game():
     print('Welcome to the Number Guessing Game!')
     print('I''m thinking of a number between 1 and 100.')
 
-    difficulty = input('Choose a difficulty. Type ''easy'' or ''hard'':').lower()
-    if difficulty == 'hard':
-        tries = HARD_ATTEMPTS
-    else:
-        tries = EASY_ATTEMPTS
+    # difficulty = input('Choose a difficulty. Type ''easy'' or ''hard'':').lower()
+    # if difficulty == 'hard':
+    #     tries = HARD_ATTEMPTS
+    # else:
+    #     tries = EASY_ATTEMPTS
+    
+    tries = return_difficulty_turns()
+    
     
     while tries > 0:
         print(f'You have {tries} attempts remaining to guess the number.')
