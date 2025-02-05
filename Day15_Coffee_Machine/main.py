@@ -1,3 +1,5 @@
+import os
+
 MENU = {
     "espresso": {
         "ingredients": {
@@ -28,7 +30,7 @@ resources = {
     "water": 300,
     "milk": 200,
     "coffee": 100,
-    "money":0.00
+    "bank": 0.00
 }
 
 coins = {
@@ -41,24 +43,35 @@ coins = {
 bank = 0.00
 
 def update_resources(beverage):
-    resources['water'] -= beverage['ingrients']['water']
-    resources['milk'] -= beverage['ingrients']['milk']
-    resources['coffee'] -= beverage['ingrients']['coffee']
-    resources['money'] += beverage['cost']
+    
+    # print('update_resources()', 'beverage', beverage,sep='|')
+    
+    for key in beverage['ingredients']:
+        resources[key] -= beverage['ingredients'][key]
+        
+    resources['bank'] += beverage['cost']
+        
+    
 
-
-def process_transaction(beverage_cost):
+def process_transaction(drink_name, beverage_cost):
     total=0.00
-    ret = 0
+    ret = True
 
     i = 0
     trans=[]
 
     print('Please insert coins:')
-    trans.append(int(input('How many quarters? ')))
-    trans.append(int(input('How many dimes? ')))
-    trans.append(int(input('How many nickels? ')))
-    trans.append(int(input('How many pennies? ')))
+    for key in coins:
+        while True:
+            amount = input(f'How many {key}s? ')
+            try:
+                amount = int(amount)
+            except:
+                print('Please enter numeric digits.')
+                continue
+            trans.append(amount)
+            break
+    
 
     # add up the coins
     for coin in coins:
@@ -67,45 +80,72 @@ def process_transaction(beverage_cost):
 
     if total < beverage_cost:
         print('Sorry that''s not enough money. Money refunded.')
-        ret = -1
+        ret = False
     else:
         # change
         print(f'Here is ${total - beverage_cost} in change')
+        print(f'Here is you\'re {drink_name} ☕. Enjoy !!!')
 
     return ret
 
-def process_report():
+
+def view_report():
     rpt = (
         f"Water: {resources['water']}ml\n"
         f"Milk: {resources['milk']}ml\n"
         f"Coffee: {resources['coffee']}g\n"
-        f"Money: ${resources['money']}"
+        f"Money: ${resources['bank']}"
     )
     print(rpt)
+
 
 def check_resources(ingredients):
     # loop through ingredients
     for x in ingredients:
         if (resources[x] - ingredients[x]) < 0:
             print(f"Sorry there's not enough {x}")
-            return -1
-    return 0
+            return False
+    return True
 
 
 def coffee_machine_program():
 
+    # clear terminal
+    # os.system('cls')
+    
+    # build list to use to validate input selection
+    choice_key_list = list(MENU.keys())
+    choice_key_list.append('report')
+    choice_key_list.append('off')
+    
     # prompt user for choice
-    response = input('What would you like?').lower()
+    while True:
+        response = input('What would you like? (espresso/latte/cappuccino): ').lower()
+        # validate
+        if response not in choice_key_list:
+            print('Invalid choice. The valid choices are: espresso/latte/cappuccino.')
+            continue
+        break
+        
+    match response:
+        case 'report':
+            # display resources report
+            view_report()
+        case 'off':
+            # exit program
+            return
+        case _:
+            # process drink order
+            drink = MENU[response]
 
-    drink = MENU[response]
+            # Check resources
+            if check_resources(drink['ingredients']):
+                if process_transaction(response, drink['cost']):
+                    # Update resources
+                    update_resources(drink)
+                
+    coffee_machine_program()
 
-    # Check resources
-    ret = check_resources(drink['ingredients'])
-    if ret == 0:
-        ret = process_transaction(drink['cost'])
-        if ret == 0:
-            # Update resources
-            update_resources(drink)
-
+        
 
 coffee_machine_program()
