@@ -13,6 +13,7 @@ def execute_coffee_maker():
     
     coffee_maker_on = True
     
+    # build string containing all valid responses
     choice_key_list = myMenu.get_items()    
     choice_key_list += 'report'
     choice_key_list += 'off'
