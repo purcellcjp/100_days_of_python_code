@@ -1,13 +1,18 @@
 import turtle as t
 
+NUMBER_BODIES = 3
+MOVE_DISTANCE = 20
+
 
 class Snake():
     def __init__(self):
         # Create snake body
         self.snake_body = []
         self.x_position = 0
+        self.create_snake()
 
-        for _ in range(3):
+    def create_snake(self):
+        for _ in range(NUMBER_BODIES):
             snake = t.Turtle(shape='square')
             snake.color('white')
             snake.penup()
@@ -20,4 +25,4 @@ class Snake():
             new_x = self.snake_body[body_index - 1].xcor()
             new_y = self.snake_body[body_index - 1].ycor()
             self.snake_body[body_index].goto(new_x, new_y)
-        self.snake_body[0].forward(20)
+        self.snake_body[0].forward(MOVE_DISTANCE)
