@@ -1,6 +1,6 @@
 from turtle import Turtle, Screen
 from frog import Frog
-from car import Car
+from cars import Cars
 import random
 import time
 
@@ -23,27 +23,34 @@ screen.onkey(frog.move_up, 'Up')
 
 
 screen.onkey(frog.move_down, 'Down')
-# screen.onkey(frog.move_left, 'Left')
-# screen.onkey(frog.move_right, 'Right')
+screen.onkey(frog.move_left, 'Left')
+screen.onkey(frog.move_right, 'Right')
 
 
 screen.listen()
 
-car = Car(main_screen=screen)
-car.move_left()
-
-# car = Turtle(shape='square')
-# car.penup()
-# car.goto(280, 0)
+cars = Cars()
 
 is_game_on = True
-i = 0
+
 while is_game_on:
-    i += 1
     time.sleep(0.1)
     screen.update()
+    cars.create_car()
+    cars.move_cars()
 
+    # Detect turtle collision
+    for car in cars.all_cars:
+        if car.distance(frog) < 20:
+            is_game_on = False
+
+    # Detect when frog makes it to top of screen
+    if frog.is_at_finish_line():
+        frog.go_to_start()
+        cars.level_up()
         
-
+        
+    # if frog.ycor() > 285:
+    #     is_game_on = False
 
 screen.exitonclick()

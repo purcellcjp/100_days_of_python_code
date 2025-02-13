@@ -1,7 +1,9 @@
 from turtle import Turtle
 import time
 
-MOVE_DISTANCE = 20
+STARTING_POSITION = (0, -280)
+MOVE_DISTANCE = 10
+FINISH_LINE_Y = 280
 
 
 class Frog(Turtle):
@@ -12,18 +14,20 @@ class Frog(Turtle):
         self.shape('turtle')
         self.penup()
         self.setheading(90)
-        self.goto(x=0, y=-280)
+        self.go_to_start()
 
     def move_up(self):
         new_y = self.ycor() + MOVE_DISTANCE
         self.goto(self.xcor(), new_y)
-        # self.screen.ontimer(self.move_up, 150)  # call move_up every 50 ms
 
-    # def start_moving_up(self):
-    #     self.move_up()
+    def go_to_start(self):
+        self.goto(STARTING_POSITION)
 
-    # def stop_moving_up(self):
-    #     self.screen.ontimer(None)
+    def is_at_finish_line(self):
+        if self.ycor() > FINISH_LINE_Y:
+            return True
+        else:
+            return False
 
     def move_down(self):
         new_y = self.ycor() - MOVE_DISTANCE
