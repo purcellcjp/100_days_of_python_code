@@ -56,10 +56,12 @@ while len(guessed_states) < 50:
 
     if answer_state == 'Exit':
         # export list of states not guessed
-        not_guessed = []
-        for state in all_states:
-            if state not in guessed_states:
-                not_guessed.append(state)
+        not_guessed = [
+            state for state in all_states if state not in guessed_states]
+        # not_guessed = []
+        # for state in all_states:
+        #     if state not in guessed_states:
+        #         not_guessed.append(state)
 
         df = pd.DataFrame(not_guessed, columns=['state'])
         df.to_csv('states_to_learn.csv', index=False)
