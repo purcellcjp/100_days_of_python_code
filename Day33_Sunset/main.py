@@ -29,10 +29,11 @@ time_now = datetime.now()
 # print(sunrise.split('T'))
 # print(sunrise.split('T')[1].split(':'))
 # print(sunrise.split('T')[1].split(':')[0])
-# print(time_now)
+print(time_now)
 
 sunrise_hr = data['results']['sunrise'].split('T')[1].split(':')[0]
 sunset_hr = data['results']['sunset'].split('T')[1].split(':')[0]
-
+time_now_hr = str(time_now).split(' ')[1].split(':')[0]
 print(sunrise_hr)
 print(sunset_hr)
+print(time_now_hr)
