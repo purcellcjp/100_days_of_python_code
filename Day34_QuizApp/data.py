@@ -5,7 +5,7 @@ URL = 'https://opentdb.com/api.php'
 
 parameters = {
     'amount': 10,
-    'category': 24,
+    'category': 18,
     'type': 'boolean',
 }
 
